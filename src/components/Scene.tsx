@@ -20,7 +20,8 @@ const CameraRig = () => {
   const targetLookAt = useRef(new THREE.Vector3());
   const currentLookAt = useRef(new THREE.Vector3(0, 0, 0));
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
+
     const slide = SLIDES[currentSlide];
     if (!slide) return;
 
@@ -52,12 +53,10 @@ const Scene: React.FC = () => {
       {/* Background Teal Particles like the HTML demo */}
       <points>
         <bufferGeometry>
-          <bufferAttribute 
-            attach="attributes-position" 
-            count={300} 
-            array={new Float32Array(300 * 3).map(() => (Math.random() - 0.5) * 60)} 
-            itemSize={3} 
-          />
+       + <bufferAttribute 
+   attach="attributes-position" 
+   args={[new Float32Array(300 * 3).map(() => (Math.random() - 0.5) * 60), 3]}
+/>
         </bufferGeometry>
         <pointsMaterial color="#00C2CB" size={0.15} transparent opacity={0.38} />
       </points>
@@ -87,7 +86,7 @@ const Scene: React.FC = () => {
       <DataFlow />
 
       {/* Post Processing for Neon Glow */}
-      <EffectComposer disableNormalPass>
+     <EffectComposer enableNormalPass>
         <Bloom 
           luminanceThreshold={0.1} 
           mipmapBlur 
